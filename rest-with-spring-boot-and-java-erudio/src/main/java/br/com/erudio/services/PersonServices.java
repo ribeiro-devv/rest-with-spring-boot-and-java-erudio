@@ -9,6 +9,7 @@ import br.com.erudio.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
@@ -41,7 +42,12 @@ public class PersonServices {
 
         var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
-        return parseObject(entity, PersonDTO.class);
+
+        PersonDTO personDTO =  parseObject(entity, PersonDTO.class);
+        personDTO.setBirthDay(new Date());
+        personDTO.setPhoneNumber("(49) 9 9113-6801");
+        personDTO.setSensitiveData("Teste");
+        return personDTO;
     }
 
     public PersonDTO create(PersonDTO person) {
